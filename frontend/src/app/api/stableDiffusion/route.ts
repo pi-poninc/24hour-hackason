@@ -8,6 +8,10 @@ export async function POST(request: Request) {
   const { prompt } = await request.json();
   const res = await fetch(`${STABLE_DIFFUSION_API}/sdapi/v1/txt2img`, {
     method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       prompt,
     }),

@@ -6,8 +6,12 @@ import useSWRMutation from "swr/mutation";
 import { REQUEST_CONTENT_TYPE } from "@/constants/http";
 import http, { HttpError } from "@/utils/http";
 
-type StableDiffusionBody = {
+type StableDiffusionRequest = {
   prompt: string;
+};
+
+type StableDiffusionResponse = {
+  images: string[];
 };
 
 export const useStableDiffusion = () => {
@@ -15,10 +19,10 @@ export const useStableDiffusion = () => {
   const [images, setImages] = useState<string[]>([]);
 
   const { trigger, isMutating } = useSWRMutation<
-    never,
+    StableDiffusionResponse,
     HttpError,
     string,
-    StableDiffusionBody
+    StableDiffusionRequest
   >(
     "/stableDiffusion",
     async (url: string, { arg }) => {
@@ -39,9 +43,12 @@ export const useStableDiffusion = () => {
     await trigger(
       { prompt },
       {
-        onSuccess: (res) => {
-          if (!res) return;
-          setImages([res]);
+        onSuccess: (data) => {
+          if (!data) {
+            return;
+          }
+          const { images = [] } = data;
+          setImages(images);
         },
       }
     );

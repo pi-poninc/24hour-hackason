@@ -13,6 +13,7 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Skeleton,
 } from "@chakra-ui/react";
 
 import { useStableDiffusion } from "@/hooks/stableDiffusion";
@@ -20,7 +21,8 @@ import { useStableDiffusion } from "@/hooks/stableDiffusion";
 export const PromptForm = () => {
   const cardBgColor = useColorModeValue("white", "gray.700");
 
-  const { prompt, handleChangePrompt, onSubmit } = useStableDiffusion();
+  const { prompt, handleChangePrompt, onSubmit, images, isMutating } =
+    useStableDiffusion();
 
   return (
     <Box minH="100vh" py={10}>
@@ -36,7 +38,13 @@ export const PromptForm = () => {
               onChange={handleChangePrompt}
               size="lg"
             />
-            <Button colorScheme="blue" onClick={onSubmit} size="lg" w="full">
+            <Button
+              isLoading={isMutating}
+              colorScheme="blue"
+              onClick={onSubmit}
+              size="lg"
+              w="full"
+            >
               漫画を生成
             </Button>
           </VStack>
@@ -45,20 +53,25 @@ export const PromptForm = () => {
               <Heading size="md">生成結果</Heading>
             </CardHeader>
             <CardBody>
-              <Box
-                w="full"
-                h="300px"
-                borderRadius="md"
-                overflow="hidden"
-                position="relative"
-              >
-                <Image
-                  src="/api/placeholder/400/300"
-                  alt="Generated Manga"
-                  objectFit="cover"
+              <Skeleton isLoaded={!isMutating}>
+                <Box
                   w="full"
-                  h="full"
-                  fallback={
+                  h="300px"
+                  borderRadius="md"
+                  overflow="hidden"
+                  position="relative"
+                >
+                  {images.map((image, idx) => (
+                    <Image
+                      key={idx}
+                      src={`data:image/png;base64, ${image}`}
+                      alt="Generated Manga"
+                      objectFit="cover"
+                      w="full"
+                      h="full"
+                    />
+                  ))}
+                  {images.length === 0 && (
                     <Box
                       w="full"
                       h="full"
@@ -71,9 +84,9 @@ export const PromptForm = () => {
                         あなたの漫画がここに表示されます
                       </Text>
                     </Box>
-                  }
-                />
-              </Box>
+                  )}
+                </Box>
+              </Skeleton>
             </CardBody>
           </Card>
         </VStack>
