@@ -6,7 +6,7 @@ import { STABLE_DIFFUSION_API } from "@/constants/stableDiffusion";
 export async function POST(request: Request) {
   console.log("POST /api/stableDiffusion");
   const { prompt } = await request.json();
-  const res = await fetch(`${STABLE_DIFFUSION_API}sdapi/v1/txt2img`, {
+  const res = await fetch(`${STABLE_DIFFUSION_API}/sdapi/v1/txt2img`, {
     method: "POST",
     body: JSON.stringify({
       prompt,

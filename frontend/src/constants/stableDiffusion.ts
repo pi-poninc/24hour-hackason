@@ -1,1 +1,1 @@
-export const STABLE_DIFFUSION_API = "http://localhost:7861/"
+export const STABLE_DIFFUSION_API = "http://localhost:7861";
