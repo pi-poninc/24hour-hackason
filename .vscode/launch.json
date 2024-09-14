@@ -24,6 +24,14 @@
                 "uriFormat": "%s",
                 "action": "debugWithChrome"
             }
-        }
+        },
+        {
+            "name": "Python Debugger: Current File (Integrated Terminal)",
+            "type": "debugpy",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/backend",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
     ]
 }

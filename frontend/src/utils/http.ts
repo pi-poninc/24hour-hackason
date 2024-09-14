@@ -1,3 +1,4 @@
+"use client";
 import camelcaseKeys from "camelcase-keys";
 
 import {
