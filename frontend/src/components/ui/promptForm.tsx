@@ -6,57 +6,61 @@ import {
   Heading,
   VStack,
   Button,
-  Input,
+  Textarea,
   Text,
   Image,
   useColorModeValue,
   Card,
   CardBody,
-  CardHeader,
-  Skeleton,
+  Flex,
 } from "@chakra-ui/react";
 
 import { useStableDiffusion } from "@/hooks/stableDiffusion";
 
 export const PromptForm = () => {
+  const bgColor = useColorModeValue("gray.50", "gray.800");
   const cardBgColor = useColorModeValue("white", "gray.700");
 
   const { prompt, handleChangePrompt, onSubmit, images, isMutating } =
     useStableDiffusion();
 
   return (
-    <Box minH="100vh" py={10}>
-      <Container maxW="container.md">
-        <VStack spacing={8}>
+    <Box bg={bgColor} minH="100vh" py={10}>
+      <Container maxW="container.xl">
+        <VStack spacing={8} align="stretch">
           <Heading as="h1" size="xl" textAlign="center">
-            マンガクリエイター
+            AI漫画ジェネレーター
           </Heading>
-          <VStack w="full" spacing={4}>
-            <Input
-              placeholder="漫画のシーンを描写してください"
-              value={prompt}
-              onChange={handleChangePrompt}
-              size="lg"
-            />
-            <Button
-              isLoading={isMutating}
-              colorScheme="blue"
-              onClick={onSubmit}
-              size="lg"
-              w="full"
-            >
-              漫画を生成
-            </Button>
-          </VStack>
-          <Card w="full" bg={cardBgColor} boxShadow="md">
-            <CardHeader>
-              <Heading size="md">生成結果</Heading>
-            </CardHeader>
-            <CardBody>
-              <Skeleton isLoaded={!isMutating}>
+          <Flex direction={{ base: "column", md: "row" }} gap={6}>
+            <Card minHeight="80vh" flex={1} bg={cardBgColor} boxShadow="md">
+              <CardBody>
+                <VStack spacing={4}>
+                  <Textarea
+                    placeholder="アイデアを入力"
+                    value={prompt}
+                    minHeight="70vh"
+                    onChange={handleChangePrompt}
+                    _placeholder={{ opacity: 0.4, color: "inherit" }}
+                    size="lg"
+                    h="full"
+                  />
+                  <Button
+                    isLoading={isMutating}
+                    colorScheme="blue"
+                    onClick={onSubmit}
+                    size="lg"
+                    w="full"
+                  >
+                    生成開始
+                  </Button>
+                </VStack>
+              </CardBody>
+            </Card>
+            <Card minHeight="80vh" flex={1} bg={cardBgColor} boxShadow="md">
+              <CardBody>
                 <Box
                   w="full"
-                  h="300px"
+                  h="full"
                   borderRadius="md"
                   overflow="hidden"
                   position="relative"
@@ -72,23 +76,20 @@ export const PromptForm = () => {
                     />
                   ))}
                   {images.length === 0 && (
-                    <Box
+                    <Flex
                       w="full"
                       h="full"
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
+                      align="center"
+                      justify="center"
                       bg="gray.100"
                     >
-                      <Text color="gray.500">
-                        あなたの漫画がここに表示されます
-                      </Text>
-                    </Box>
+                      <Text color="gray.500">結果表示エリア</Text>
+                    </Flex>
                   )}
                 </Box>
-              </Skeleton>
-            </CardBody>
-          </Card>
+              </CardBody>
+            </Card>
+          </Flex>
         </VStack>
       </Container>
     </Box>

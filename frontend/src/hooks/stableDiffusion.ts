@@ -54,7 +54,7 @@ export const useStableDiffusion = () => {
     );
   };
 
-  const handleChangePrompt = (e: React.ChangeEvent<HTMLInputElement>) =>
+  const handleChangePrompt = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
     setPrompt(e.target.value);
 
   return {
