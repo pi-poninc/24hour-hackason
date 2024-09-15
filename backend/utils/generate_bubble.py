@@ -21,7 +21,7 @@ def _write_buble(
     num_script = len(talk_script)
     for i in range(num_script):
         if i == round(num_script / 2):
-            x = 50 * num_script / 2
+            x = 75 * num_script / 2
         else:
             col = len(talk_script[i]) // max_chars_per_line + 1
             x -= size
