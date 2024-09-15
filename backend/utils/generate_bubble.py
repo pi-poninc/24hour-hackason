@@ -7,6 +7,8 @@ from PIL import Image, ImageDraw, ImageFont
 def create_talk_scipt(comments):
     talks = re.findall(r"「(.*?)」", comments)
     speakers = re.findall(r"【(.*?)】", comments)
+    if len(talks) != len(speakers):
+        speakers += ["司会者"for i  in range(len(talks) - len(speakers))]
     return talks, speakers
 def _write_buble(talk_script:list, speakers, width=512, max_chars_per_line=15, size=25) -> list:
     dicts = []
@@ -22,7 +24,7 @@ def _write_buble(talk_script:list, speakers, width=512, max_chars_per_line=15, s
         if speakers[i] == "司会者":
             y = 40
         else:
-            y = 60
+            y = 80
         dicts.append({"text": talk_script[i], "xy": (x, y), "speaker": speakers[i]})
     return dicts
 
@@ -80,9 +82,9 @@ def draw_speech_bubble_with_vertical_text(
 
     # 吹き出し（楕円形）の描画
     if speaker == "司会者":
-        draw.rectangle([bubble_left, bubble_top, bubble_right, bubble_bottom], fill=bubble_color, outline=(0, 0, 0), width=2)
+        draw.rectangle([bubble_left, bubble_top, bubble_right, bubble_bottom], fill=(245,245,255), outline=(0, 0, 0), width=2)
     else:
-        draw.rectangle([bubble_left, bubble_top, bubble_right, bubble_bottom], fill=bubble_color, outline=(20, 20, 20), width=2)
+        draw.rectangle([bubble_left, bubble_top, bubble_right, bubble_bottom], fill=(245,245,240), outline=(0, 0, 0), width=2)
 
 
     # 吹き出しの尾（三角形）の描画
@@ -113,7 +115,7 @@ def generate_page(base64_img, scene_content, show=False):
     
     for buble in bubles:
         # draw.text(**buble, direction="ttb", font=font)
-        draw_speech_bubble_with_vertical_text(image, **buble, font=font, color=(0, 0, 0),line_spacing=5, max_chars_per_line=20)
+        draw_speech_bubble_with_vertical_text(image, **buble, font=font, color=(0, 0, 0), max_chars_per_line=20)
     if show:
         return image.show()
     # PILイメージをバイトストリームに変換
