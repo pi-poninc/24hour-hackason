@@ -12,47 +12,48 @@ def create_talk_scipt(comments):
         speakers += ["司会者" for i in range(len(talks) - len(speakers))]
     return talks, speakers
 
+
 def rearrange_list(lst):
     # リストの長さを取得
     n = len(lst)
-    
+
     # リストを2つの部分に分ける
     mid = n // 2
     first_half = lst[:mid]
     second_half = lst[mid:]
-    
+
     # 後半部分を逆にする
     second_half.reverse()
-    
+
     # 両方の部分を結合する
     rearranged_lst = first_half + second_half
-    
+
 
 def _write_buble(
     talk_script: list, speakers, width=512, max_chars_per_line=15, size=25
 ) -> list:
     dicts = []
     x = width - 25
-    reverse_range = rearrange_list(list(range(num_script)))
+    reverse_range = rearrange_list(list(range(talk_script)))
     for i in reverse_range:
         if speakers[i] == "司会者":
             y = 20
         else:
             y = 40
-        if i < round(len(talk_script)/2):
-            col = len(talk_script[i])//max_chars_per_line + 1
-            x -= size 
-            x -= col * size + 20 
+        if i < round(len(talk_script) / 2):
+            col = len(talk_script[i]) // max_chars_per_line + 1
+            x -= size
+            x -= col * size + 20
             dicts.append({"text": talk_script[i], "xy": (x, y), "speaker": speakers[i]})
-        elif i == round(len(talk_script)/2):
+        elif i == round(len(talk_script) / 2):
             x = 20
             dicts.append({"text": talk_script[i], "xy": (x, y), "speaker": speakers[i]})
-            x += size 
-            x += col * size + 20 
+            x += size
+            x += col * size + 20
         else:
             dicts.append({"text": talk_script[i], "xy": (x, y), "speaker": speakers[i]})
-            x += size 
-            x += col * size + 20 
+            x += size
+            x += col * size + 20
     return dicts
 
 

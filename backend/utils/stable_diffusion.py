@@ -1,3 +1,4 @@
+import random
 import requests
 
 
@@ -12,7 +13,7 @@ def post_stable_diffusion(prompt: str, path="sdapi/v1/txt2img") -> str:
         "cfg_scale": 1,
         "sampler_name": "Euler",
         "scheduler": "Simple",
-        "seed": 42,
+        "seed": random.randint(0, 10000),
         "width": 512,
         "height": 512,
     }
