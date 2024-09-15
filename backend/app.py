@@ -39,13 +39,20 @@ class SceneScript(TypedDict):
 
 async def generate_manga_script(document) -> list[SceneScript]:
     """漫画スクリプトを生成する関数"""
-    return json.loads(
-        await post_claude(
-            read_text("prompt/setting.txt").replace(
-                "[ここに文書の内容を入力してください]", document
+
+    async def _exe():
+        return json.loads(
+            await post_claude(
+                read_text("prompt/setting.txt").replace(
+                    "[ここに文書の内容を入力してください]", document
+                )
             )
         )
-    )
+
+    try:
+        return await _exe()
+    except json.decoder.JSONDecodeError:
+        return await _exe()
 
 
 def generate_manga(scene: 2) -> str:
