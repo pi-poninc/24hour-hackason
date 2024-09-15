@@ -40,6 +40,7 @@ export const useStableDiffusion = () => {
   );
 
   const onSubmit = async () => {
+    setImages([]);
     await trigger(
       { prompt },
       {

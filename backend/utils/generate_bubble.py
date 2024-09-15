@@ -100,11 +100,24 @@ def draw_speech_bubble_with_vertical_text(
         draw.text((x, y), line, font=font, fill=color, direction="ttb")
         x -= bbox[2] # 行間のスペースを追加
     return image
+
+def expand_image(image: Image, target_ratio=16 / 9):
+    width, height = image.size
+
+    # 新しい幅を計算（高さは変更しない）
+    new_width = int(height * target_ratio)
+    # 新しい画像を作成（黒背景）
+    new_img = Image.new("RGB", (new_width, height), (0, 0, 0))  # 黒色 (0, 0, 0)
+    # 元の画像を中央に配置
+    paste_x = (new_width - width) // 2
+    new_img.paste(image, (paste_x, 0))
+    return new_img
+
     
 def generate_page(base64_img, scene_content, show=False):
     # 画像を開く
     imgdata = base64.b64decode(str(base64_img))
-    image = Image.open(io.BytesIO(imgdata))
+    image = expand_image(Image.open(io.BytesIO(imgdata)))
     page_speech_bubble, speakers = create_talk_scipt(scene_content)
     size=20
     # フォントを指定（.ttfファイルが必要、サイズも指定）
