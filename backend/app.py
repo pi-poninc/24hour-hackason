@@ -11,6 +11,7 @@ from pydantic import BaseModel
 from utils.claude import post_claude
 from utils.file import read_text
 from utils.stable_diffusion import post_stable_diffusion
+from utils.generate_bubble import generate_page
 
 logger = getLogger(__name__)
 
@@ -68,7 +69,8 @@ def generate_manga(scene: 2) -> str:
         )
 
     image_data = post_stable_diffusion(prompt)
-    return image_data
+    manga_data = generate_page(image_data, scene.get("scene_content"))
+    return manga_data
 
 
 if __name__ == "__main__":
