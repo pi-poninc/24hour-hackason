@@ -13,6 +13,7 @@ import {
   Card,
   CardBody,
   Flex,
+  Spinner,
 } from "@chakra-ui/react";
 
 import { useStableDiffusion } from "@/hooks/stableDiffusion";
@@ -38,7 +39,7 @@ export const PromptForm = () => {
                   <Textarea
                     placeholder="アイデアを入力"
                     value={prompt}
-                    minHeight="70vh"
+                    minHeight="65vh"
                     onChange={handleChangePrompt}
                     _placeholder={{ opacity: 0.4, color: "inherit" }}
                     size="lg"
@@ -56,24 +57,47 @@ export const PromptForm = () => {
                 </VStack>
               </CardBody>
             </Card>
-            <Card minHeight="80vh" flex={1} bg={cardBgColor} boxShadow="md">
-              <CardBody>
+            <Card maxHeight="80vh" flex={1} bg={cardBgColor} boxShadow="md">
+              <CardBody maxHeight="80vh" overflowY="auto">
                 <Box
                   w="full"
                   h="full"
                   borderRadius="md"
-                  overflow="hidden"
                   position="relative"
+                  overflowY="auto"
+                  css={{
+                    "&::-webkit-scrollbar": {
+                      width: "10px",
+                    },
+                    "&::-webkit-scrollbar-track": {
+                      width: "100px",
+                    },
+                    "&::-webkit-scrollbar-thumb": {
+                      borderRadius: "24px",
+                    },
+                  }}
                 >
-                  {images.map((image, idx) => (
-                    <Image
-                      key={idx}
-                      src={`data:image/png;base64, ${image}`}
-                      alt="Generated Manga"
-                      objectFit="cover"
+                  {isMutating && (
+                    <Flex
                       w="full"
                       h="full"
-                    />
+                      align="center"
+                      justify="center"
+                      bg="gray.100"
+                    >
+                      <Spinner size="xl" />
+                    </Flex>
+                  )}
+                  {images.map((image, idx) => (
+                    <VStack key={idx} w="full" h="full">
+                      <Image
+                        src={`data:image/png;base64, ${image}`}
+                        alt="Generated Manga"
+                        objectFit="cover"
+                        w="full"
+                        h="full"
+                      />
+                    </VStack>
                   ))}
                   {images.length === 0 && (
                     <Flex
