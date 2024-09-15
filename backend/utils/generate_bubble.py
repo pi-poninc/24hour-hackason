@@ -36,12 +36,12 @@ def _write_buble(
     x = width - 25
     reverse_range = rearrange_list(list(range(len(talk_script))))
     for i in reverse_range:
+        col = len(talk_script[i]) // max_chars_per_line + 1
         if speakers[i] == "司会者":
             y = 20
         else:
             y = 40
         if i < round(len(talk_script) / 2):
-            col = len(talk_script[i]) // max_chars_per_line + 1
             x -= size
             x -= col * size + 20
             dicts.append({"text": talk_script[i], "xy": (x, y), "speaker": speakers[i]})

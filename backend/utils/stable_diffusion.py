@@ -1,5 +1,6 @@
 import random
 import requests
+import json
 
 
 def post_stable_diffusion(prompt: str, path="sdapi/v1/txt2img") -> str:

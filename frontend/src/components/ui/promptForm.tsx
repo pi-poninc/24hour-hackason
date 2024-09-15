@@ -25,6 +25,8 @@ export const PromptForm = () => {
   const { prompt, handleChangePrompt, onSubmit, images, isMutating } =
     useStableDiffusion();
 
+  const isDisabled = prompt.length === 0;
+
   return (
     <Box bg={bgColor} minH="100vh" py={10}>
       <Container maxW="container.xl">
@@ -49,6 +51,7 @@ export const PromptForm = () => {
                     isLoading={isMutating}
                     colorScheme="blue"
                     onClick={onSubmit}
+                    isDisabled={isDisabled}
                     size="lg"
                     w="full"
                   >

@@ -57,38 +57,48 @@ async def generate_manga_script(document) -> list[SceneScript]:
 
 def generate_manga(scene: 2) -> str:
     """漫画を生成する関数"""
-    initial_prompt = "anime:1.1, detailed, sharp focus, 4K, TV show, <lora:anime_lora:10>, "
+    initial_prompt = (
+        "anime:1.1, detailed, sharp focus, 4K, TV show, <lora:anime_lora:10>, "
+    )
     male_actor = "charismatic male TV host, black swept back hair, dark suit, microphone, middle-aged, "
     female_actor = "cute Japanese female, brown short hair, pink dress, "
     if "オープニング" in scene["scene_type"]:
         prompt = (
             initial_prompt
-            + "large screen, colorful quiz show set, audience in background, excited atmosphere," 
-            + male_actor + "explaining quiz, standing pose, "
+            + "large screen, colorful quiz show set, audience in background, excited atmosphere,"
+            + male_actor
+            + "explaining quiz, standing at podium"
             + initial_prompt
-            + female_actor + "standing pose, "
+            + female_actor
+            + "standing pose, "
         )
     elif "クイズ問題" in scene["scene_type"]:
         prompt = (
             initial_prompt
             + "close-up of large screen displaying quiz question and options, "
-            + male_actor + "cheering pose, "
+            + male_actor
+            + "cheering pose, "
             + initial_prompt
-            + female_actor + "crossed arms, thinking expression, standing at podium, "
+            + female_actor
+            + "crossed arms, thinking expression, standing at podium"
         )
     elif "エンディング" in scene["scene_type"]:
         prompt = (
-            initial_prompt + "contestant receiving trophy, celebratory atmosphere, "
+            initial_prompt
+            + "contestant receiving trophy, celebratory atmosphere, "
             + male_actor
             + initial_prompt
-            + female_actor + "happy expression"
+            + female_actor
+            + "happy expression"
         )
     else:
         prompt = (
             initial_prompt
-            + male_actor + "speaking with microphone, "
+            + male_actor
+            + "speaking with microphone, "
             + initial_prompt
-            + female_actor + "standing pose, "
+            + female_actor
+            + "standing pose, "
         )
 
     image_data = post_stable_diffusion(prompt)
