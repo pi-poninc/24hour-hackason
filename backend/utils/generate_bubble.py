@@ -26,7 +26,7 @@ def rearrange_list(lst):
     second_half.reverse()
 
     # 両方の部分を結合する
-    rearranged_lst = first_half + second_half
+    return first_half + second_half
 
 
 def _write_buble(
@@ -34,7 +34,7 @@ def _write_buble(
 ) -> list:
     dicts = []
     x = width - 25
-    reverse_range = rearrange_list(list(range(talk_script)))
+    reverse_range = rearrange_list(list(range(len(talk_script))))
     for i in reverse_range:
         if speakers[i] == "司会者":
             y = 20
