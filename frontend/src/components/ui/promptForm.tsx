@@ -88,17 +88,20 @@ export const PromptForm = () => {
                       <Spinner size="xl" />
                     </Flex>
                   )}
-                  {images.map((image, idx) => (
-                    <VStack key={idx} w="full" h="full">
-                      <Image
-                        src={`data:image/png;base64, ${image}`}
-                        alt="Generated Manga"
-                        objectFit="cover"
-                        w="full"
-                        h="full"
-                      />
+                  {images.length > 0 && (
+                    <VStack w="full" h="full" spacing={4}>
+                      {images.map((image, idx) => (
+                        <Image
+                          key={idx}
+                          src={`data:image/png;base64, ${image}`}
+                          alt="Generated Manga"
+                          objectFit="cover"
+                          w="full"
+                          h="full"
+                        />
+                      ))}
                     </VStack>
-                  ))}
+                  )}
                   {images.length === 0 && (
                     <Flex
                       w="full"
