@@ -5,11 +5,8 @@ import base64
 from PIL import Image, ImageDraw, ImageFont
 
 def create_talk_scipt(comments):
-    talk_scripts = []
-    for comment in comments:
-        talk = re.findall(r"「(.*?)」", comment)
-        talk_scripts.append(talk)
-    return talk_scripts
+    talk = re.findall(r"「(.*?)」", comments)
+    return talk
 def _write_buble(talk_script:list, y_position=40, width=512, max_chars_per_line=15, size=25) -> list:
     dicts = []
     x = width - 25 
@@ -87,9 +84,11 @@ def draw_speech_bubble_with_vertical_text(image, xy, text, font, color=(0, 0, 0)
         x -= bbox[2] # 行間のスペースを追加
     return image
     
-def generate_page(page_file_name, page_speech_bubble, show=False):
+def generate_page(base64_img, scene_content, show=False):
     # 画像を開く
-    image = Image.open(page_file_name)
+    imgdata = base64.b64decode(str(base64_img))
+    image = Image.open(io.BytesIO(imgdata))
+    page_speech_bubble = create_talk_scipt(scene_content)
     size=40
     # フォントを指定（.ttfファイルが必要、サイズも指定）
     font = ImageFont.truetype("GenEiKoburiMin6-R.ttf",size=size, layout_engine=ImageFont.Layout.RAQM)
@@ -112,18 +111,18 @@ def generate_page(page_file_name, page_speech_bubble, show=False):
     return img_str
 
 
-def main():
-    json_file = "output/stable_diffusion_prompts.json"
-    prompts = load_prompts(json_file)
-    comments = [prompt.get("scene_content")for prompt in prompts]
+# def main():
+#     json_file = "output/stable_diffusion_prompts.json"
+#     prompts = load_prompts(json_file)
+#     comments = [prompt.get("scene_content")for prompt in prompts]
 
-    prompts = load_prompts(json_file)
-    comments = [prompt.get("scene_content")for prompt in prompts]
-    speech_bubbles = create_talk_scipt(comments)
-    for i in range(len(speech_bubbles)):
-        generate_page(
-            page_file_name = f'output/expanded_manga_images/expanded_scene_{i}.png',
-            page_speech_bubble=speech_bubbles[i], 
-            show=True,)
-if __name__ == "__main__":
-    main()
+#     prompts = load_prompts(json_file)
+#     comments = [prompt.get("scene_content")for prompt in prompts]
+#     speech_bubbles = create_talk_scipt(comments)
+#     for i in range(len(speech_bubbles)):
+#         generate_page(
+#             page_file_name = f'output/expanded_manga_images/expanded_scene_{i}.png',
+#             page_speech_bubble=speech_bubbles[i], 
+#             show=True,)
+# if __name__ == "__main__":
+#     main()
