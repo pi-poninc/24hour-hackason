@@ -94,7 +94,7 @@ def generate_page(base64_img, scene_content, show=False):
     font = ImageFont.truetype("GenEiKoburiMin6-R.ttf",size=size, layout_engine=ImageFont.Layout.RAQM)
     # テキストの内容、位置、色を指定
     # 画像にテキストを描画
-    bubles = _write_buble(page_speech_bubble,max_chars_per_line=20, width=1900, size=size)
+    bubles = _write_buble(page_speech_bubble,max_chars_per_line=20, width=image.size[0], size=size)
     
     for buble in bubles:
         # draw.text(**buble, direction="ttb", font=font)
