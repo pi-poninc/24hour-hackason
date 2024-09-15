@@ -74,7 +74,7 @@ def draw_speech_bubble_with_vertical_text(
         max_width += bbox[2]
         total_heights.append(bbox[3])
     # 吹き出しの枠を計算
-    bubble_padding = 20
+    bubble_padding = 10
     bubble_left = xy[0]
     bubble_top = xy[1] - bubble_padding
     bubble_right = xy[0] + max_width + bubble_padding
@@ -106,7 +106,7 @@ def generate_page(base64_img, scene_content, show=False):
     imgdata = base64.b64decode(str(base64_img))
     image = Image.open(io.BytesIO(imgdata))
     page_speech_bubble, speakers = create_talk_scipt(scene_content)
-    size=40
+    size=20
     # フォントを指定（.ttfファイルが必要、サイズも指定）
     font = ImageFont.truetype("GenEiKoburiMin6-R.ttf",size=size, layout_engine=ImageFont.Layout.RAQM)
     # テキストの内容、位置、色を指定
