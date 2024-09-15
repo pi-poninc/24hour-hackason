@@ -1,5 +1,4 @@
 import json
-import base64
 from logging import getLogger
 from typing import TypedDict
 
