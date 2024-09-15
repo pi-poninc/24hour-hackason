@@ -13,6 +13,7 @@ import {
   Card,
   CardBody,
   Flex,
+  Spinner,
 } from "@chakra-ui/react";
 
 import { useStableDiffusion } from "@/hooks/stableDiffusion";
@@ -56,8 +57,8 @@ export const PromptForm = () => {
                 </VStack>
               </CardBody>
             </Card>
-            <Card minHeight="80vh" flex={1} bg={cardBgColor} boxShadow="md">
-              <CardBody>
+            <Card maxHeight="80vh" flex={1} bg={cardBgColor} boxShadow="md">
+              <CardBody maxHeight="80vh" overflowY="auto">
                 <Box
                   w="full"
                   h="full"
@@ -76,6 +77,17 @@ export const PromptForm = () => {
                     },
                   }}
                 >
+                  {isMutating && (
+                    <Flex
+                      w="full"
+                      h="full"
+                      align="center"
+                      justify="center"
+                      bg="gray.100"
+                    >
+                      <Spinner size="xl" />
+                    </Flex>
+                  )}
                   {images.map((image, idx) => (
                     <VStack key={idx} w="full" h="full">
                       <Image
