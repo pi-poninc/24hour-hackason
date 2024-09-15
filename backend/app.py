@@ -2,6 +2,8 @@ import json
 from logging import getLogger
 from typing import TypedDict
 
+import asyncio
+import aiohttp
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
@@ -24,10 +26,9 @@ class ImageRequest(BaseModel):
 @app.post("/image")
 async def create_manga(request: ImageRequest):
     manga_script = await generate_manga_script(request.prompt)
-    images = []
-    for scene in manga_script:
-        images.append(generate_manga(scene))
-
+    async with aiohttp.ClientSession() as session:
+        tasks = [generate_manga(scene, session) for x in manga_script]
+        images = await asyncio.gather(*tasks)
     return JSONResponse({"images": images})
 
 
@@ -55,7 +56,7 @@ async def generate_manga_script(document) -> list[SceneScript]:
         return await _exe()
 
 
-def generate_manga(scene: 2) -> str:
+async def generate_manga(scene: SceneScript, session: aiohttp.ClientSession) -> str:
     """漫画を生成する関数"""
     prompt = "manga style, anime style, comic book style, high quality, detailed, sharp focus, "
     if "オープニング" in scene["scene_type"]:
@@ -74,7 +75,7 @@ def generate_manga(scene: 2) -> str:
             + "contestant receiving trophy, host shaking hands, celebratory atmosphere, studio audience applauding, charismatic male TV host, suit, microphone, friendly smile, average Japanese person, casual clothes, happy expression"
         )
 
-    image_data = post_stable_diffusion(prompt)
+    image_data = post_stable_diffusion(prompt, session)
     manga_data = generate_page(image_data, scene.get("scene_content"))
     return manga_data
 

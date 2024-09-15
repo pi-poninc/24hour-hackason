@@ -1,7 +1,8 @@
+import aiohttp
 import requests
 
 
-def post_stable_diffusion(prompt: str, path="sdapi/v1/txt2img") -> str:
+async def post_stable_diffusion(prompt: str, session: aiohttp.ClientSession, path="sdapi/v1/txt2img") -> str:
     url = f"http://localhost:7860/{path}"
     headers = {"Content-Type": "application/json"}
     data = {
@@ -16,6 +17,6 @@ def post_stable_diffusion(prompt: str, path="sdapi/v1/txt2img") -> str:
         "width": 512,
         "height": 512,
     }
-    response = requests.post(url, headers=headers, json=data)
-    content = response.json()
-    return content["images"][0]
+    async with session.post(url, headers=headers, data=data) as res:
+        content = await res.json()
+        return content["images"][0]
