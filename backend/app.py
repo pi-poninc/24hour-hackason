@@ -64,9 +64,9 @@ def generate_manga(scene: 2) -> str:
         prompt = (
             initial_prompt
             + "large screen, colorful quiz show set, audience in background, excited atmosphere," 
-            + male_actor + "explaining quiz, standing at podium"
+            + male_actor + "explaining quiz, "
             + initial_prompt
-            + female_actor
+            + female_actor + ", standing at podium, "
         )
     elif "クイズ問題" in scene["scene_type"]:
         prompt = (
@@ -74,7 +74,7 @@ def generate_manga(scene: 2) -> str:
             + "close-up of large screen displaying quiz question and options, "
             + male_actor + "cheering pose, "
             + initial_prompt
-            + female_actor + "crossed arms, thinking expression, standing at podium"
+            + female_actor + "crossed arms, thinking expression, standing at podium, "
         )
     elif "エンディング" in scene["scene_type"]:
         prompt = (
