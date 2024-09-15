@@ -30,7 +30,7 @@ export const PromptForm = () => {
       <Container maxW="container.xl">
         <VStack spacing={8} align="stretch">
           <Heading as="h1" size="xl" textAlign="center">
-            AI漫画ジェネレーター
+            マンガde解説
           </Heading>
           <Flex direction={{ base: "column", md: "row" }} gap={6}>
             <Card minHeight="80vh" flex={1} bg={cardBgColor} boxShadow="md">
